@@ -2,10 +2,10 @@
 
 
 .bss
-.comm boot_drive, 1
+.comm boot_drive, 1  
 
 .text
-
+ 
 KERNEL_OFFSET = 0x1000
 
 .global _start
@@ -16,7 +16,7 @@ _start:
 
 	mov $0x9000, %bp
 	mov %bp, %sp
-
+  
 	mov $bit16_msg, %edx
 	mov $bit16_msg_l, %ecx
 	call print
@@ -25,7 +25,7 @@ _start:
 	call load_kernel
 	call switch_to32
 	jmp .
-
+  
 	.include "string_16print.s"
 	.include "hex_16print.s"
 	.include "load_disk.s"
@@ -41,16 +41,16 @@ load_kernel:
 	call print_nl
 
 	mov $0, %eax
-
+ 
 	mov $KERNEL_OFFSET, %bx
 
-	mov $1, %dh #pamietac zeby zwiekszyc jak braknie miejsca xd
+	mov $1, %dh #pamietac zeby zwiekszyc jak braknie miejsca xda 
 	mov boot_drive(, %eax, 1), %dl
 	
 	call disk_load
 	ret
 
-
+  
 .code32
 start_32:
 	

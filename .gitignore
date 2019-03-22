@@ -1,0 +1,12 @@
+# Executable
+boot.bin
+boot.o
+kernel.bin
+kernel.o
+kernel_entry.o
+
+
+# Linux
+*~
+
+

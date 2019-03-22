@@ -3,6 +3,9 @@
 
 .global _start
 start:
-call main
-jmp .
-       
+	call main 
+	cli
+j1:	
+	hlt
+	jmp j1   
+            
