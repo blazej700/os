@@ -4,9 +4,6 @@ boot.o
 kernel.bin
 kernel.o
 kernel_entry.o
-
-
+os-image.img
 # Linux
 *~
-
-
