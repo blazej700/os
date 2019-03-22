@@ -8,7 +8,7 @@
  
 KERNEL_OFFSET = 0x1000
 
-.global _start
+.global _start 
 _start: 
 
 	mov $0, %eax

@@ -7,5 +7,5 @@ start:
 	cli
 j1:	
 	hlt
-	jmp j1   
+	jmp j1    
             
