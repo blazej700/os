@@ -1,9 +1,7 @@
 
-
 print_hexb:     #wyswietlanie liczby hex 2 bajtowej
 				#w %dx mamy wartosc do wyswietlenia
 	
-	#0xffff
 	pusha
 	mov $0xe, %ah
 	mov $4, %ecx

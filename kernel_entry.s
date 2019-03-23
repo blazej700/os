@@ -3,7 +3,8 @@
 
 .global _start
 start:
-	call main 
+	call main #wywolanie naszego jadra w C
+	
 	cli
 j1:	
 	hlt

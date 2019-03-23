@@ -1,5 +1,5 @@
 
-#export PATH="$HOME/opt/cross/bin:$PATH" exprot cross compiler prefix before make
+#export PATH="$HOME/opt/cross/bin:$PATH" #exprot cross compiler prefix before make
 
 os-image.bin: boot.bin kernel.bin
 	cat $^ > os-image.bin

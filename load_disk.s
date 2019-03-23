@@ -1,7 +1,7 @@
 
 disk_load:
 	pusha
-	push %dx #tam jest numer naszego dysku
+	push %dx 
 
 	mov $0x02, %ah  #w int 0x13 0x02 to funkcja read
 	mov %dh, %al
@@ -28,7 +28,7 @@ disk_error:
 	mov $disk_error_msg_l, %ecx
 	call print
 	call print_nl
-	mov %ax, %dx			#ZREWIZOWAĆ! już jest chybaxd
+	mov %ax, %dx			
 	call print_hexb
 	jmp disk_loop
 
