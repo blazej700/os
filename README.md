@@ -1,6 +1,6 @@
 # OS 
 
-kompilacja:` make`
+kompilacja:` make`, przy użyciu Cross Compiler https://wiki.osdev.org/GCC_Cross-Compiler
 
 uruchomienie:` qemu-system-i386 -fda os-image.bin`
 
@@ -11,7 +11,18 @@ uruchomienie:` qemu-system-i386 -fda os-image.bin`
 
 # To do
 
-  - ~~Cross Compiler~~ zrobione za pomocą https://wiki.osdev.org/GCC_Cross-Compiler
-  - String
-  - print w c
-  - obsługa klawiatury
+  - sterownik vga
+  - Przerwania 1
+  - sterownik kalwiatury
+
+  - Alokator pamieci
+  - Przerwania 2
+  - Sterwonik stacji dyskietek
+  - Fat12
+  - Zmiany bootloadera do pracy z plikami 
+  - Uruchamianie progrmów
+
+  - Sterownik twrdego dysku
+  - Fat16/Fat32 albo Ext2
+  - Sterwonik usb
+
