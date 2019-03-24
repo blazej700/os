@@ -11,7 +11,7 @@ uruchomienie:` qemu-system-i386 -fda os-image.bin`
 
 # To do
 
-  - sterownik vga
+  - ~~sterownik vga~~ DONE
   - Przerwania 1
   - sterownik kalwiatury
 
