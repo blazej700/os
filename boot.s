@@ -43,7 +43,7 @@ load_kernel:
  
 	mov $KERNEL_OFFSET, %bx
 
-	mov $1, %dh 					#ilosc sektorow do wczytania, pamietac zeby zwiekszyc jak braknie miejsca xda 
+	mov $6, %dh 					#ilosc sektorow do wczytania, pamietac zeby zwiekszyc jak braknie miejsca xda 
 	mov boot_drive(, %eax, 1), %dl
 	
 	call disk_load	#wywolanie wczytywania z dysku
