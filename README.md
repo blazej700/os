@@ -12,7 +12,7 @@ uruchomienie:` qemu-system-i386 -fda os-image.bin`
 # OPIS
 
 1.Kernel
-  1.kernel.c - glowny kod jadra
+  1. kernel.c - glowny kod jadra
   2. keyborad.c - sterownik klawiatury
   3. ports.c - obsluga portow
   4. utli.c - pomocnicze funkcje
