@@ -1,17 +1,17 @@
-## OS 
+# OS 
 
 kompilacja:` make`, przy użyciu Cross Compiler https://wiki.osdev.org/GCC_Cross-Compiler
 
 uruchomienie:` qemu-system-i386 -fda os-image.bin`
 
-## Dyskietka do odpalenia w VM
+# Dyskietka do odpalenia w VM
 1.`dd if=/dev/zero of=os-image.img ibs=1k count=1440`
 
 2.`dd if=os-image.bin of=os-image.img conv=notrunc`
 
-## OPIS
+# OPIS
 
-#  1.Kernel
+##  1.Kernel
 
     1.`kernel.c` - glowny kod jadra
 
@@ -29,7 +29,7 @@ uruchomienie:` qemu-system-i386 -fda os-image.bin`
 
     8.`interupt.s`, `isr.c`, `gdt.s`, `descriptor_tables` - obsluga przerwan
 
-# 2.Bootloader
+## 2.Bootloader
 
     1.`boot.s` - glowny kod bootladera
 
@@ -41,7 +41,7 @@ uruchomienie:` qemu-system-i386 -fda os-image.bin`
 
     5.`string_32print.s` - wyswietlanie w trybie 32 bitowym
 
-## To do
+# To do
 
   - ~~sterownik vga~~ DONE
   - ~~Przerwania 1~~ DONE
