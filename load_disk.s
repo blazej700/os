@@ -1,3 +1,4 @@
+#Funkcja ladujaca z dysku reszte systemu
 
 disk_load:
 	pusha

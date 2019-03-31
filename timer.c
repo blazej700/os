@@ -7,7 +7,7 @@ u32int tick = 0;
 
 static void timer_callback(registers_t regs)
 {
-   //narazie to tylko liczy i nic nierobi, ale potem moze sie przydac
+   //na razie to tylko liczy i nic nie robi, ale potem moze sie przydac
    tick++;
 }
 

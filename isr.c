@@ -47,7 +47,7 @@ isr_t interrupt_handlers[256];
 // To wywolujemy w naszym kodzie asmeblera gdy mamy dany wyjatek, kody bledow sa w rejestrach
 void isr_handler(registers_t regs)
 {
-    print("recieved interrupt: ");
+    print("received interrupt: ");
     char s[3];
     int_to_ascii(regs.int_no, s);
     print(s);
@@ -64,7 +64,7 @@ void register_interrupt_handler(u8int n, isr_t handler)
 void irq_handler(registers_t r) 
 {
 
-	//Odscwizenie, wysylame EOI do PIC'ow zeby odblokowac przerwania
+	//Odswiezenie, wysylamni EOI do PIC'ow zeby odblokowac przerwania
     if (r.int_no >= 40)
     {
     port_byte_out(0xA0, 0x20); // slave

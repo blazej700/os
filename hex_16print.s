@@ -1,7 +1,10 @@
+# Funkcja wypisujaca dwubajtowa liczbe hex
 
-print_hexb:     #wyswietlanie liczby hex 2 bajtowej
-				#w %dx mamy wartosc do wyswietlenia
-	
+#-----------------------------------
+# %dx - wartosc do wypisania
+#-----------------------------------
+
+print_hexb:  
 	pusha
 	mov $0xe, %ah
 	mov $4, %ecx
@@ -17,7 +20,7 @@ print_hexb:     #wyswietlanie liczby hex 2 bajtowej
 		and $0xf0, %al
 		shr $4, %al
 
-		cmp $0x9, %al #if(0x9 < %al){jmp is_0} else {jmp is_a}
+		cmp $0x9, %al 	#if(0x9 < %al){jmp is_0} else {jmp is_a}
 		jl is_0
 		jmp is_a
 		is_a:

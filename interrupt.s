@@ -335,14 +335,14 @@ irq0:
     push $32
     jmp irq_common_stub
 
-# 1: keyborad
+# 1: Keyboard
 irq1:
     cli
     push $1
     push $33
     jmp irq_common_stub
 
-# 2-15: narazie wolne
+# 2-15: Na razie wolne
 irq2:
     cli
     push $2

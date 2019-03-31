@@ -4,14 +4,14 @@
 #include "timer.h"
 #include "isr.h"
 
-//Sprawdzamy czy napewno nie komilujemy dla os
+//Sprawdzamy czy na pewno nie kompilujemy dla os
 #if defined(__linux__)
 #error "You are not using a cross-compiler"
 #endif
  
-//Czy napewno kompilujemy w 32bit
+//Czy na pewno kompilujemy w 32bit
 #if !defined(__i386__)
-#error "This needs to be compiled with a ix86-elf compiler"
+#error "This needs to be compiled with a i686-elf compiler"
 #endif 
 
 
@@ -25,7 +25,7 @@ void main()
 
 	print_r("OS v1\n");
 	print_r("Dzien dobry\n");
-	print("To stop, type STOP.\nEverything eles will be printed.\nIt's sooooo usefull, have fun.");
+	print("To stop, type STOP.\nEverything else will be printed.\nIt's sooooo useful, have fun.");
 	print("\n> ");
 
 	for(;;);//zeby nie zakonczyc dzialania

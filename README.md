@@ -12,23 +12,23 @@ uruchomienie:` qemu-system-i386 -fda os-image.bin`
 # OPIS
 
 1.Kernel
-  1. kernel.c - glowny kod jadra
-  2. keyborad.c - sterownik klawiatury
-  3. ports.c - obsluga portow
-  4. utli.c - pomocnicze funkcje
-  5. timer.c - sterownik timer'a
-  6. kernel_entry - wywoliuje glowny kod jadra
+  1. kernel.c - główny kod jadra
+  2. keyboard.c - sterownik klawiatury
+  3. ports.c - obsługa portów
+  4. util.c - funkcje pomocnicze
+  5. timer.c - sterownik timera
+  6. kernel_entry.s - wywołuje główny kod jądra
   7. screen.c - sterownik vga
-  8. interupt.s, isr.c, gdt.s, descriptor_tables - obsluga przerwan
+  8. interupt.s, isr.c, gdt.s, descriptor_tables.c - obsługa przerwań
 
 2.Bootloader
-  1. boot.s - glowny kod bootladera
-  2. load_disk.s - laduje jadro z dysku
-  3. switch_to32.s - przechodzi w trym 32 bitowy
-  4. string_16print.s, hex_16print.s - wyswietlanie w trybie 16 bitowym
-  5. string_32print.s - wyswietlanie w trybie 32 bitowym
+  1. boot.s - główny kod bootladera
+  2. load_disk.s - ładuje jądro z dysku
+  3. switch_to32.s - przechodzi w tryb 32 bitowy
+  4. string_16print.s, hex_16print.s - wyświetlanie w trybie 16 bitowym
+  5. string_32print.s - wyświetlanie w trybie 32 bitowym
 
-# To do
+# TODO
 
   - ~~sterownik vga~~ DONE
   - ~~Przerwania 1~~ DONE
@@ -36,12 +36,12 @@ uruchomienie:` qemu-system-i386 -fda os-image.bin`
 
   - Alokator pamieci
   - Przerwania 2
-  - Sterwonik stacji dyskietek
+  - Sterownik stacji dyskietek
   - Fat12
   - Zmiany bootloadera do pracy z plikami 
-  - Uruchamianie progrmów
+  - Uruchamianie programów
 
-  - Sterownik twrdego dysku
+  - Sterownik dysku twardego
   - Fat16/Fat32 albo Ext2
-  - Sterwonik usb
+  - Sterownik USB
 
