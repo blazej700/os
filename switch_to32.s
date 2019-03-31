@@ -1,11 +1,13 @@
 .code16
+#Funkcja przelaczajaca do trybu protected
+#Ustawia tablice deskryptorow i bit cr0 
 switch_to32:
 	cli
 
 	movw $0, %ax
 	movw %ax, %ds
 
-	#tablica deskryptorw
+	#tablica deskryptorow
 
 	movl $0x00000000, 0x800
 	movl $0x00000000, 0x804
@@ -20,7 +22,7 @@ switch_to32:
 	or $0x01, %al
 	movl %eax, %cr0
 
-	jmp $0x10, $init_32 #daleki skok do init_32, po wykonaniu jestesmy w pm mode
+	jmp $0x10, $init_32 	#daleki skok do init_32, po wykonaniu jestesmy w protected mode
 
 gdt_reg:
 	.word 0x0017
@@ -28,7 +30,7 @@ gdt_reg:
 
 .code32
 init_32:
- 	movw $0x8, %ax # We set up %ds and %ss pointing on the Data segment
+ 	movw $0x8, %ax 		#Ustawiamy %ds i %ss by wskazywaly na Data segment
 	movw %ax, %ds
 	movw %ax, %ss
 	call start_32

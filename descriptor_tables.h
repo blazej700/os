@@ -5,7 +5,7 @@
 void init_descriptor_tables();
 
 
-//wartosci GDT entryy
+//wartosci GDT entry
 struct gdt_entry_struct
 {
     u16int limit_low;           // 16 limit
@@ -34,7 +34,7 @@ struct idt_entry_struct
     u16int sel;                 // segment selector
     u8int  always0;             // zero
     u8int  flags;               // flagi
-    u16int base_hi;             // ...gorne 16 adressu gdzie mamy sie udac gdy wystapy przerwanie
+    u16int base_hi;             // ...gorne 16 adresu gdzie mamy sie udac gdy wystapi przerwanie
 } __attribute__((packed));
 
 typedef struct idt_entry_struct idt_entry_t;
@@ -44,7 +44,7 @@ typedef struct idt_entry_struct idt_entry_t;
 struct idt_ptr_struct
 {
     u16int limit;
-    u32int base;                // adres pierwszego elemntu w tablicy idt_entry_t
+    u32int base;                // adres pierwszego elementu w tablicy idt_entry_t
 } __attribute__((packed));
 
 typedef struct idt_ptr_struct idt_ptr_t;

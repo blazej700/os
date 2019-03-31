@@ -4,7 +4,7 @@
 #define VIDEO_ADDRESS 0xb8000	//adres poczatku pamieci vga
 #define MAX_ROWS 25	
 #define MAX_COLS 80
-#define DEFAULT_COLOR 0x02 //zielony teks na czarnym tle
+#define DEFAULT_COLOR 0x02      //zielony tekst na czarnym tle
 
 
 // Porty i/o wyswietlania

@@ -13,7 +13,9 @@ int get_offset_col(int offset);
 
 
 /*  wyswietla msg od podanego miejsca
-/   *msg-wskaznik na widowmosc do wyswietlenia, col-kolumna, row-wiersz
+/   *msg - wskaznik na wiadomosc do wyswietlenia 
+/   col - kolumna
+/   row - wiersz
 */
 void print_at(char *msg, int col, int row, char color)
 {
@@ -32,8 +34,8 @@ void print_at(char *msg, int col, int row, char color)
     }
 }
 
-/*  wyswetla msg od miejsca gdzie znajduje sie kursor
-/   *msg-wskaznik na widowmosc do wyswietlenia
+/*  wyswietla msg od miejsca gdzie znajduje sie kursor
+/   *msg - wskaznik na wiadomosc do wyswietlenia
 */
 void print(char *msg)   
 {
@@ -82,8 +84,11 @@ void print_r(char *msg)
 
 
 /*  wyswietla znak w zadanym miejscu
-/   a-znak do wyswietlenia, col-kolumna, row-wiersz color-kolor liter i tla 
-/   zwraca offset-przesuniecie 
+/   a - znak do wyswietlenia
+/   col - kolumna
+/   row - wiersz 
+/   color - kolor liter i tla 
+/   zwraca offset - przesuniecie 
 */  
 int print_c(char a, int col, int row, char color)   
 {
@@ -110,10 +115,10 @@ int print_c(char a, int col, int row, char color)
     else                                //albo na poczatek nowej lini jesli nie ma juz miejsca
         offset=get_offset(0, row+1); 
 
-    if((row+3) > MAX_ROWS)      //jesli zaraz bd konec to wystko przesowamy do gory
+    if((row+3) > MAX_ROWS)      //jesli zaraz bedzie koniec to wszystko przesuwamy do gory
         offset=scroll(offset);
 
-    set_cursor(offset);  //ustawiamy kursor na naowa pozycje
+    set_cursor(offset);  //ustawiamy kursor na nowa pozycje
     return offset;  
 }
 
@@ -122,18 +127,18 @@ int print_c(char a, int col, int row, char color)
  */
 void clear_s() 
 {
-    int size = MAX_ROWS*MAX_COLS;//chyba oczywiste xd
-    char *screen = VIDEO_ADDRESS; //wzkaznik na pamiec vga
+    int size = MAX_ROWS*MAX_COLS;   //chyba oczywiste xd
+    char *screen = VIDEO_ADDRESS;   //wzkaznik na pamiec vga
     int i;
-    for(i=0; i<size; i++)   //wedrujemy sobie przez cala pamiec i 
+    for(i=0; i<size; i++)           //wedrujemy sobie przez cala pamiec i 
     {
-        screen[i*2] = ' '; //ustawiamy znak na ' '
+        screen[i*2] = ' ';          //ustawiamy znak na ' '
         screen[i*2+1] = DEFAULT_COLOR; // i kolor na domyslny
     }
     set_cursor(0);
 }
 
-/* Przesowa wszytko do gory
+/* Przesuwa wszytko do gory
  *
  */
 int scroll(int offset)
@@ -156,7 +161,7 @@ int scroll(int offset)
 }
 
 /*  zwraca pozycje kursora jako:
- *  offset-przesuniecie 
+ *  offset - przesuniecie 
  */
 int get_cursor()    
 {
@@ -187,24 +192,27 @@ void set_cursor(int offset)
     port_byte_out(REG_SCREEN_DATA, (unsigned char)(offset & 0xff));
 }
 
-/* zwraca offset-przesuniecie od poczatku pamieci grafiki w zaleznosci od:
-/   col-kolumny, row-wiersza
+/* zwraca offset - przesuniecie od poczatku pamieci grafiki w zaleznosci od:
+/   col - kolumny
+/   row - wiersza
 */
 int get_offset(int col, int row) 
 { 
     return 2 * (row * MAX_COLS + col); 
 }
 
-/*  zwraca row-wiersz w zaleznosci od
-/   offset-przesuniecia 
+/*  zwraca row - wiersz w zaleznosci od
+/   offset - przesuniecia 
 */
 int get_offset_row(int offset) 
 { 
     return offset / (2 * MAX_COLS); 
 }
 
-/*  zwraca col-kolumne w zaleznosci od
-/   offset-przesuniecia
+/*  zwraca 
+/   col - kolumne 
+/   w zaleznosci od
+/   offset - przesuniecia
 */
 int get_offset_col(int offset) 
 { 

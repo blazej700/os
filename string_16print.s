@@ -1,7 +1,11 @@
+#Funkcja wypisujaca napis w trybie real
 
-
-print:  #wyswietlanie napisu 
-		#w %edx adres tego co mamy wyswietlic, w %ecx dlugosc
+#---------------------------
+# %ecx - dlugosc napisu
+# %edx - adres napisu
+#---------------------------
+print:  		
+			
 	pusha
 
 	l1:
@@ -14,7 +18,7 @@ print:  #wyswietlanie napisu
 	popa
 	ret
 
-print_nl:	#printing new line
+print_nl:		#wypisanie nowej linii
 	pusha
 
 	mov $0x0e, %ah
