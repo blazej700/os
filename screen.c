@@ -34,6 +34,27 @@ void print_at(char *msg, int col, int row, char color)
     }
 }
 
+ /* Czysci ostatni znak i przesuwa kursor na wczesniejsza pozycje
+ /
+*/ 
+void remove_last()
+{
+    int offset;
+    int row;
+    int col;
+    char color;
+
+    color=DEFAULT_COLOR;
+    offset = get_cursor();
+    offset = offset - 1;
+    row = get_offset_row(offset);
+    col = get_offset_col(offset);
+    
+    print_c(' ', col, row, color);
+
+    set_cursor(offset);
+}
+
 /*  wyswietla msg od miejsca gdzie znajduje sie kursor
 /   *msg - wskaznik na wiadomosc do wyswietlenia
 */

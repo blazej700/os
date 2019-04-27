@@ -54,7 +54,7 @@ void append(char s[], char n) {
     s[len+1] = '\0';
 }
 
-void backspace(char s[]) {
+void delend(char s[]) {
     int len = strl(s);
     s[len-1] = '\0';
 }

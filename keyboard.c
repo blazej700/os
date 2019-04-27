@@ -4,12 +4,13 @@
 #include "screen.h"
 
 #define ENTER 0x1c
+#define BACKSPACE 14
 
 char key_buf[256];
 
 //znaki ASCII wg. odpowiadajacych im scancodow
 const char sc_ascii[] = { '?', '?', '1', '2', '3', '4', '5', '6',     			
-    	'7', '8', '9', '0', '-', '=', '?', '?', 'Q', 'W', 'E', 'R', 'T', 'Y', 
+    	'7', '8', '9', '0', '-', '=', 'x', '?', 'Q', 'W', 'E', 'R', 'T', 'Y', 
         'U', 'I', 'O', 'P', '[', ']', '?', '?', 'A', 'S', 'D', 'F', 'G', 
         'H', 'J', 'K', 'L', ';', '\'', '`', '?', '\\', 'Z', 'X', 'C', 'V', 
         'B', 'N', 'M', ',', '.', '/', '?', '?', '?', ' '};
@@ -27,6 +28,16 @@ static void keyboard_callback(registers_t r)
 		print("\n");
 		user_input(key_buf);
 		key_buf[0] = '\0';
+	}
+	else if(scancode == BACKSPACE)
+	{
+		int len = strl(key_buf);
+
+		if(len > 0)
+		{
+			delend(key_buf);
+			remove_last();
+		}
 	}
 	else
 	{	

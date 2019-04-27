@@ -16,5 +16,6 @@ void clear_s();
 void print_at(char *msg, int col, int row, char color);
 void print(char *msg);
 void print_r(char *msg);
+void remove_last();
 
 #endif

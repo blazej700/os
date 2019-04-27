@@ -32,11 +32,15 @@ void main()
  	
 }
 
-void user_input(char *input) {
-    if (strcmp(input, "STOP") == 1) {
+void user_input(char *input) 
+{
+    
+    if (strcmp(input, "STOP") == 1) 
+    {
         print("Stopping. Bye!\n");
         asm volatile("hlt");
     }
+    
     print("You said: ");
     print(input);
     print("\n> ");
