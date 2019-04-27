@@ -1,5 +1,7 @@
 # Executable
 *.o
 os-image.img
+kernel.bin
+boot.bin
 # Linux
 *~
