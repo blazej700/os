@@ -14,8 +14,24 @@ void memory_copy(char *source, char *dest, int nbytes) {
     }
 }
 
+void swap(char *a1, char *a2){
+    char tmp;
+    tmp = *a1;
+    *a1 = *a2;
+    *a2 = tmp;
+}
+
+void rev(char str[], int len){
+    int j = 0;
+    while(j<len/2){
+        swap(&str[j], &str[len-j-1]);
+        j++;
+    }
+}
+
 
 void int_to_ascii(int n, char str[]) {
+
     int i, sign;
     if ((sign = n) < 0) n = -n;
     i = 0;
@@ -24,9 +40,12 @@ void int_to_ascii(int n, char str[]) {
     } while ((n /= 10) > 0);
 
     if (sign < 0) str[i++] = '-';
-    str[i] = '\0';
 
+    rev(str, i);
+
+    str[i] = '\0';
 }
+
 
 void memory_set(u8int *dest, u8int val, u32int len) {
     u8int *temp = (u8int *)dest;
@@ -59,6 +78,19 @@ void delend(char s[]) {
     s[len-1] = '\0';
 }
 
+/*
+ *  a=b
+ */
+void str_copy(char a[], char b[]) {
+    int i = 0;
+
+    while(b[i]){
+        a[i]=b[i];
+        i++;
+    }
+}
+
+
 /* 
  * jesli sie zgadzaja zwraca 1, jesli nie 0
  */
@@ -70,4 +102,30 @@ int strcmp(char s1[], char s2[]) {
             return 1;
     }
     return 0;
+}
+
+int pow(int a, int b)
+{
+    if(b == 0)
+        return 1;
+    if(a == 0)
+        return 0;
+    int tmp = a;
+    for( ; b>1; b--)
+        tmp=tmp*a;
+    return tmp;
+}
+
+int str_to_int(char s[])
+{
+    int i = 0;
+    int l = strl(s);
+    int j = 0;
+    l--;
+    for(; l>=0; l--){
+        i = i + (s[l] - '0')*pow(10,j);
+        j++;
+    }
+
+    return i;
 }

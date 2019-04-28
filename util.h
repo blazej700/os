@@ -10,6 +10,11 @@ void memory_set(u8int *dest, u8int val, u32int len);
 void append(char s[], char n);
 void delend(char s[]);
 int strcmp(char s1[], char s2[]);
+void str_copy(char a[], char b[]);
+void rev(char str[], int len);
+void swap(char *a1, char *a2);
+int str_to_int(char s[]);
+int pow(int a, int b);
 
 
 #endif

@@ -3,6 +3,7 @@
 #include "util.h"
 #include "timer.h"
 #include "keyboard.h"
+#include "ports.h"
 
 
 //Nazwy wyjatkow
@@ -67,7 +68,7 @@ void irq_handler(registers_t r)
 	//Odswiezenie, wysylamni EOI do PIC'ow zeby odblokowac przerwania
     if (r.int_no >= 40)
     {
-    port_byte_out(0xA0, 0x20); // slave
+        port_byte_out(0xA0, 0x20); // slave
 	}
     port_byte_out(0x20, 0x20); // master 
 
@@ -85,7 +86,7 @@ void irq_install()
     asm volatile("sti");
     
     //IRQ0 timer
-    init_timer(50);
+    init_timer(100);
 
     //IRQ1 klawiatura
 	init_keyboard();

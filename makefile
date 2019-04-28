@@ -7,7 +7,7 @@ boot.bin: boot.o
 	i686-elf-ld -Ttext 0x7c00 --oformat binary -o boot.bin boot.o
 boot.o: boot.s
 	i686-elf-as -o boot.o boot.s
-kernel.bin:kernel_entry.o kernel.o ports.o util.o screen.o descriptor_tables.o isr.o gdt.o interrupt.o timer.o keyboard.o
+kernel.bin:kernel_entry.o kernel.o ports.o util.o screen.o descriptor_tables.o isr.o gdt.o interrupt.o timer.o keyboard.o input.o
 	i686-elf-ld -o kernel.bin -Ttext 0x1000 $^ --oformat binary  #i686-elf-ld
 
 interrupt.o: interrupt.s
@@ -16,7 +16,10 @@ interrupt.o: interrupt.s
 gdt.o: gdt.s
 	i686-elf-as -o gdt.o gdt.s
 
-keyboard.o: keyboard.c keyboard.h 
+input.o: input.c input.h util.h types.h
+	i686-elf-gcc -ffreestanding -c input.c -o input.o -std=gnu99 -Wall -Wextra
+
+keyboard.o: keyboard.c keyboard.h input.h
 	i686-elf-gcc -ffreestanding -c keyboard.c -o keyboard.o -std=gnu99 -Wall -Wextra
 
 timer.o: timer.c timer.h 

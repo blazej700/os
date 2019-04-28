@@ -11,6 +11,14 @@ typedef          short s16int;
 typedef unsigned char  u8int;
 typedef          char  s8int;
 
+typedef struct hour_st
+{
+	u8int h;
+	u8int m;
+	u8int s;
+} hour;
+
+
 #define low_16(address) (u16)((address) & 0xFFFF)
 #define high_16(address) (u16)(((address) >> 16) & 0xFFFF)
 

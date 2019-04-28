@@ -2,6 +2,7 @@
 #include "ports.h"
 #include "isr.h"
 #include "screen.h"
+#include "input.h"
 
 #define ENTER 0x1c
 #define BACKSPACE 14
@@ -23,32 +24,47 @@ static void keyboard_callback(registers_t r)
 
 	if (scancode > 57) return;
 
+	// if(scancode == ENTER)
+	// {
+	// 	print("\n");
+	// 	user_input(key_buf);
+	// 	key_buf[0] = '\0';
+	// }
+	// else if(scancode == BACKSPACE)
+	// {
+	// 	int len = strl(key_buf);
+
+	// 	if(len > 0)
+	// 	{
+	// 		delend(key_buf);
+	// 		remove_last();
+	// 	}
+	// }
+	// else
+	// {	
+		
+	// 	char l = sc_ascii[(int)scancode];
+
+	// 	char str[2] = {l, '\0'};
+	// 	append(key_buf, l);
+	// 	print(str);
+	// }
+
+
 	if(scancode == ENTER)
 	{
-		print("\n");
-		user_input(key_buf);
-		key_buf[0] = '\0';
+		special_key(1);
 	}
 	else if(scancode == BACKSPACE)
 	{
-		int len = strl(key_buf);
-
-		if(len > 0)
-		{
-			delend(key_buf);
-			remove_last();
-		}
+		special_key(2);
 	}
 	else
 	{	
-		
 		char l = sc_ascii[(int)scancode];
-
-		char str[2] = {l, '\0'};
-		append(key_buf, l);
-		print(str);
+		add_char(l);
 	}
-	
+
 }
 
 void init_keyboard() 
