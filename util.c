@@ -129,3 +129,27 @@ int str_to_int(char s[])
 
     return i;
 }
+
+void hex_to_str(int hex, char str[])
+{
+    int i;
+    
+    i = 0;
+    do {
+        if(hex % 0x10 < 0xa)
+            str[i] = hex % 0x10 + '0';
+        else{
+            str[i] = hex % 0x10 + 'A' - 0xa;
+        }
+        i++;
+    } while ((hex /= 0x10) > 0);
+
+    str[i++]='x';
+    str[i++]='0';
+
+    
+
+    rev(str, i);
+
+    str[i] = '\0';
+}

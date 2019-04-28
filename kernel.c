@@ -108,6 +108,7 @@ void main()
 		if (strcmp(input, "STOP") == 1) 
 		{
 	    	print("Stop");
+	    	asm volatile("cli");
 	        asm volatile("hlt");
 	    }
 	    else if(strcmp(input, "TIME") == 1)
@@ -125,7 +126,3 @@ void main()
  	
 }
 
-void user_input(char *input) 
-{
-
-}
