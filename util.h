@@ -5,6 +5,7 @@
 
 void memory_copy(char *source, char *dest, int nbytes);
 void int_to_ascii(int n, char str[]);
+void float_to_ascii(float n, char str[], int prec);
 int strl(char* s);
 void memory_set(u8int *dest, u8int val, u32int len);
 void append(char s[], char n);

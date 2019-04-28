@@ -46,6 +46,25 @@ void int_to_ascii(int n, char str[]) {
     str[i] = '\0';
 }
 
+void float_to_ascii(float n, char str[], int prec) {
+	int whole, fraction, sign = 0, i = 0;
+
+	if (prec > 6) prec = 6;
+
+	if (n < 0) {
+		sign = 1;
+		n = -n;
+	}
+
+	whole = n;
+	fraction = (n - whole) * pow(10, prec);
+
+	if (sign) str[i++] = '-';
+	int_to_ascii(whole, &str[i]);
+	while (str[i] != '\0') i++;
+	str[i++] = '.';
+	int_to_ascii(fraction, &str[i]);
+}
 
 void memory_set(u8int *dest, u8int val, u32int len) {
     u8int *temp = (u8int *)dest;
