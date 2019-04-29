@@ -83,6 +83,32 @@ void clock_init()
 	time_clear();
 }
 
+void malloc_test()
+{
+	char size_input[10];
+	print("Size to allocate");
+	print("\nMALLOC> ");
+	scan_c(size_input);
+
+	u32int size;
+	size = (u32int)(str_to_int(size_input));
+
+	int_to_ascii(size, size_input);
+	print(size_input);
+	print("\n");
+
+	u32int phys_addr;
+	u32int page = kmalloc(size, &phys_addr);
+	char page_str[16] = "";
+    hex_to_str(page, page_str);
+	char phys_str[16] = "";
+	hex_to_str(phys_addr, phys_str);
+	print("Page: ");
+	print(page_str);
+	print(", physical address: ");
+	print(phys_str);
+	print("\n");
+}
 
 void main()
 {
@@ -94,12 +120,14 @@ void main()
 
 	print_r("OS v1\n");
 	print_r("Dzien dobry\n");
-	print("To stop, type STOP.\n To curent time, type TIME.\nEverything else will be printed.\nIt's sooooo useful, have fun.\n");
+	print("To stop, type STOP.\n");
+	print("To set  time, type SETTIME.\n");
+	print("To curent time, type TIME.\n");
+	print("To kmalloc, type MALLOC.\n");
+	print("Everything else will be printed.\n");
+	print("It's sooooo useful, have fun.\n");
 
 	char input[256];
-
-	clock_init();
-
 
 	while(1)
 	{
@@ -114,6 +142,14 @@ void main()
 	    else if(strcmp(input, "TIME") == 1)
 	    {
 	    	clock_print();
+	    }
+	    else if(strcmp(input, "MALLOC") == 1)
+	    {
+	    	malloc_test();
+	    }
+	    else if(strcmp(input, "SETTIME") == 1)
+	    {
+	    	clock_init();
 	    }
 	    else
 		{	    

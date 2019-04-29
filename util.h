@@ -16,7 +16,8 @@ void rev(char str[], int len);
 void swap(char *a1, char *a2);
 int str_to_int(char s[]);
 int pow(int a, int b);
-void hex_to_str(int hex, char str[]);
+void hex_to_str(u32int hex, char str[]);
+u32int kmalloc(u32int size, u32int *phys_addr);
 
 
 #endif

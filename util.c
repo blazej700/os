@@ -6,6 +6,7 @@
  *
  */
 
+u32int free_mem_addr = 0x10000; //Początek wolnej pamięci, czyli moment od ktorego zapisujemy nasze jadro w pamieci
 
 void memory_copy(char *source, char *dest, int nbytes) {
     int i;
@@ -149,7 +150,7 @@ int str_to_int(char s[])
     return i;
 }
 
-void hex_to_str(int hex, char str[])
+void hex_to_str(u32int hex, char str[])
 {
     int i;
     
@@ -166,9 +167,30 @@ void hex_to_str(int hex, char str[])
     str[i++]='x';
     str[i++]='0';
 
-    
-
     rev(str, i);
 
     str[i] = '\0';
+}
+
+ /* zwraca wskaznik na wolna pamiec po zaalokowaniu 
+  * size - rozmaiar tego czego chcemy zaalokowac
+  * phys_addr - wskaznik na to co chcemy przydzielic, zmieniamy tez jego wartosc na pocztek wolej pamieci
+  */
+u32int kmalloc(u32int size, u32int *phys_addr) 
+{
+
+    // Kazda strona ma 4kb
+    if ((free_mem_addr & 0xFFFFF000)) {
+        free_mem_addr &= 0xFFFFF000;
+        free_mem_addr += 0x1000; // 0x1000b == 4kb
+    }
+    
+
+    if (phys_addr){
+        *phys_addr = free_mem_addr;
+    }
+
+    u32int ret = free_mem_addr;
+    free_mem_addr += size; 
+    return ret;
 }
