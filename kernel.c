@@ -34,19 +34,8 @@ void clock_print()
 	    time_now.m=time_now.m-60;
 	    time_now.h++;
 	}
-	
-	char se[3];
-	char mi[3];
-	char ho[3];
-	int_to_ascii(time_now.s,se);
-	int_to_ascii(time_now.m,mi);
-	int_to_ascii(time_now.h,ho);
-	print(ho);
-	print(":");
-	print(mi);
-	print(":");
-	print(se);
-	
+
+	print_f("%02d:%02d:%02d", time_now.h, time_now.m, time_now.s);
 }
 
 void clock_init()
@@ -67,19 +56,8 @@ void clock_init()
 	scan_c(input);
 	init_time.s = str_to_int(input);
 
-	char se[3];
-	char mi[3];
-	char ho[3];
-	int_to_ascii(init_time.s,se);
-	int_to_ascii(init_time.m,mi);
-	int_to_ascii(init_time.h,ho);
-	print(ho);
-	print(":");
-	print(mi);
-	print(":");
-	print(se);
-	print("\n");
-	
+	print_f("%02d:%02d:%02d", init_time.h, init_time.m, init_time.s);
+
 	time_clear();
 }
 
@@ -99,15 +77,8 @@ void malloc_test()
 
 	u32int phys_addr;
 	u32int page = kmalloc(size, &phys_addr);
-	char page_str[16] = "";
-    hex_to_str(page, page_str);
-	char phys_str[16] = "";
-	hex_to_str(phys_addr, phys_str);
-	print("Page: ");
-	print(page_str);
-	print(", physical address: ");
-	print(phys_str);
-	print("\n");
+
+	print_f("Page: %x, physical address: %p\n", page, phys_addr);
 }
 
 void main()
