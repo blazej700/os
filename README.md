@@ -20,6 +20,7 @@ uruchomienie:` qemu-system-i386 -fda os-image.bin`
   6. kernel_entry.s - wywołuje główny kod jądra
   7. screen.c - sterownik vga
   8. interupt.s, isr.c, gdt.s, descriptor_tables.c - obsługa przerwań
+  9. input.c - obsługa wejścia
 
 2.Bootloader
   1. boot.s - główny kod bootladera
@@ -34,8 +35,8 @@ uruchomienie:` qemu-system-i386 -fda os-image.bin`
   - ~~Przerwania 1~~ DONE
   - ~~sterownik kalwiatury~~ DONE
 
-  - Alokator pamieci
-  - Przerwania 2
+  - Alokator pamieci Częściowo DONE
+  - ~~Przerwania 2~~ DONE
   - Sterownik stacji dyskietek
   - Fat12
   - Zmiany bootloadera do pracy z plikami 
