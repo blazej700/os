@@ -46,3 +46,18 @@ kernel.o: kernel.c kernel.h
 kernel_entry.o: kernel_entry.s
 	i686-elf-as -o kernel_entry.o kernel_entry.s
 
+floppy:
+	dd if=/dev/zero of=os-image.img ibs=1k count=1440
+	dd if=os-image.bin of=os-image.img conv=notrunc
+
+clean:
+	rm *.o
+
+clean-bin:
+	rm *.bin
+
+clean-all:
+	rm *.o *.bin *.img
+
+run: os-image.bin
+	qemu-system-i386 -fda os-image.bin
