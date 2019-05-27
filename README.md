@@ -39,7 +39,7 @@ Zmiana dyskietki na wygenerowaną:
 
   - ~~sterownik vga --DONE
   - ~~Przerwania 1 --DONE
-  - ~~sterownik kalwiatury --DONE
+  - ~~sterownik klawiatury --DONE
 
   - Alokator pamieci Częściowo DONE
   - ~~Przerwania 2 --DONE
