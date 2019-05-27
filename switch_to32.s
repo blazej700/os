@@ -14,7 +14,7 @@ switch_to32:
 	movl $0x0000FFFF, 0x808 # Data segment descriptor
 	movl $0x00CF9200, 0x80C # read/write
 	movl $0x0000FFFF, 0x810 # Code segment descriptor
-	movl $0x00CF9800, 0x814 # execute/read
+	movl $0x00CF9A00, 0x814 # execute/read
 
 	lgdt gdt_reg
 

@@ -1,10 +1,4 @@
-#include "screen.h"
-#include "util.h"
-#include "descriptor_tables.h"
-#include "timer.h"
-#include "isr.h"
-#include "input.h"
-#include "types.h"
+#include "kernel.h"
 
 //Sprawdzamy czy na pewno nie kompilujemy dla os
 #if defined(__linux__)
@@ -16,7 +10,16 @@
 #error "This needs to be compiled with a i686-elf compiler"
 #endif 
 
-hour init_time;
+void scheduler_test()
+{
+	while(true)
+	{
+		print_f("Proces numer %d \n", task_manager.current_task);
+		//print_f("przed: %x %x\n", task_manager.tasks[task_manager.current_task].regs->ss, task_manager.tasks[task_manager.current_task].regs->esp);
+		sleep(500);
+		//print_f("po: %x %x\n", task_manager.tasks[task_manager.current_task].regs->ss, task_manager.tasks[task_manager.current_task].regs->esp);
+	}
+}
 
 void clock_print()
 {
@@ -81,25 +84,46 @@ void malloc_test()
 	print_f("Page: %x, physical address: %p\n", page, phys_addr);
 }
 
-void main()
+void floppy_test()
 {
-	clear_s();
+	int i=0;
+	char floppy_input[10];
+	// Paskudny hack, zeby nie wracalo do menu
+	task_manager.tasks[0].status = DEAD_PROCESS;
+	print("Which sector: ");
+	scan_c(floppy_input);
 
-	init_descriptor_tables();
+	u32int start;
+	start = (u32int)(str_to_int(floppy_input));
 
-	irq_install();
+	print("How many bytes: ");
+	scan_c(floppy_input);
+	task_manager.tasks[0].status = ACTIVE_PROCESS;
 
+	u32int size;
+	size = (u32int)(str_to_int(floppy_input));
+
+	floppy_read_track(start, size);
+	for(i=0; i<size; i++)
+		print_f("%d ",  floppy_dmabuf[i]);
+}
+
+void system_menu()
+{
 	print_r("OS v1\n");
 	print_r("Dzien dobry\n");
 	print("To stop, type STOP.\n");
 	print("To set  time, type SETTIME.\n");
 	print("To curent time, type TIME.\n");
-	print("To kmalloc, type MALLOC.\n");
+	print("To kmalloc, type MALLOC.\n"); 
+	print("To test scheduler, type SCHEDULER.\n"); 
+	print("To list processes, type PS.\n"); 
+	print("To kill process, type KILL.\n"); 
+	print("To test floppy, type FLOPPY.\n"); 
 	print("Everything else will be printed.\n");
 	print("It's sooooo useful, have fun.\n");
-
+	
 	char input[256];
-
 	while(1)
 	{
 		print("\n> ");
@@ -122,6 +146,28 @@ void main()
 	    {
 	    	clock_init();
 	    }
+	    else if(strcmp(input, "SCHEDULER") == 1)
+	    {
+			add_task(scheduler_test);
+	    }
+	    else if(strcmp(input, "PS") == 1)
+	    {
+	    	list_processes();
+	    }
+	    else if(strcmp(input, "KILL") == 1)
+	    {
+	    	char id_c[10];
+	    	print("Process to kill");
+			print("\n ");
+			scan_c(id_c);
+			int id;
+			id = str_to_int(id_c);
+			kill_task(id);
+	    }
+	    else if(strcmp(input, "FLOPPY") == 1)
+	    {
+			add_task(floppy_test);
+	    }
 	    else
 		{	    
 			print("You said: ");
@@ -130,6 +176,20 @@ void main()
 	}
 
 	for(;;);//zeby nie zakonczyc dzialania
- 	
+}
+
+void main()
+{
+	clear_s();
+	init_descriptor_tables();
+	create_task_manager(&task_manager);
+	//menu musi być dodane pierwsze
+	add_task(system_menu);
+
+	add_task(&floppy_reset);
+
+	//Musi być ostatnie bo uruchamia wielowątkowość
+	irq_install();
+	while(1);
 }
 

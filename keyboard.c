@@ -17,27 +17,22 @@ const char sc_ascii[] = { '?', '?', '1', '2', '3', '4', '5', '6',
         'B', 'N', 'M', ',', '.', '/', '?', '?', '?', ' '};
 
 
-static void keyboard_callback(registers_t r)
+static u32int keyboard_callback(u32int esp)
 {
-
 	u8int scancode = port_byte_in(0x60);
 
-	if (scancode > 57) return;
+	if (scancode > 57) return esp;
 
 	if(scancode == ENTER)
-	{
 		special_key(1);
-	}
 	else if(scancode == BACKSPACE)
-	{
 		special_key(2);
-	}
 	else
 	{	
 		char l = sc_ascii[(int)scancode];
 		add_char(l);
 	}
-
+    return esp;
 }
 
 void init_keyboard() 

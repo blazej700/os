@@ -31,13 +31,14 @@ uruchomienie:` qemu-system-i386 -fda os-image.bin`
 
 # TODO
 
-  - ~~sterownik vga~~ DONE
-  - ~~Przerwania 1~~ DONE
-  - ~~sterownik kalwiatury~~ DONE
+  - ~~sterownik vga --DONE
+  - ~~Przerwania 1 --DONE
+  - ~~sterownik kalwiatury --DONE
 
   - Alokator pamieci Częściowo DONE
-  - ~~Przerwania 2~~ DONE
-  - Sterownik stacji dyskietek
+  - ~~Przerwania 2 --DONE
+  - Sterownik stacji dyskietek --DONE
+  - Obsługa procesów --DONE
   - Fat12
   - Zmiany bootloadera do pracy z plikami 
   - Uruchamianie programów
