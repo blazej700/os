@@ -9,6 +9,12 @@ uruchomienie:` qemu-system-i386 -fda os-image.bin`
 
 2.`dd if=os-image.bin of=os-image.img conv=notrunc`
 
+Stworzenie dysku floppy do wczytania w systemie - make floppy
+Zmiana dyskietki na wygenerowaną:
+1. Ctrl - Alt - 2 w QEMU
+2. change floppy0 os-image.img
+3. Ctrl - Alt - 1
+
 # OPIS
 
 1.Kernel
@@ -31,13 +37,14 @@ uruchomienie:` qemu-system-i386 -fda os-image.bin`
 
 # TODO
 
-  - ~~sterownik vga~~ DONE
-  - ~~Przerwania 1~~ DONE
-  - ~~sterownik kalwiatury~~ DONE
+  - ~~sterownik vga --DONE
+  - ~~Przerwania 1 --DONE
+  - ~~sterownik klawiatury --DONE
 
   - Alokator pamieci Częściowo DONE
-  - ~~Przerwania 2~~ DONE
-  - Sterownik stacji dyskietek
+  - ~~Przerwania 2 --DONE
+  - Sterownik stacji dyskietek --DONE
+  - Obsługa procesów --DONE
   - Fat12
   - Zmiany bootloadera do pracy z plikami 
   - Uruchamianie programów

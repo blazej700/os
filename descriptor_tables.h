@@ -1,6 +1,8 @@
 
+#include "util.h"
+#include "screen.h"
 #include "types.h"
-
+#include "ports.h"
 
 void init_descriptor_tables();
 

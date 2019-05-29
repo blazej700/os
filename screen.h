@@ -1,6 +1,9 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
+#include "ports.h"
+#include "util.h"
+
 #define VIDEO_ADDRESS 0xb8000	//adres poczatku pamieci vga
 #define MAX_ROWS 25	
 #define MAX_COLS 80
@@ -17,5 +20,13 @@ void print_at(char *msg, int col, int row, char color);
 void print(char *msg);
 void print_r(char *msg);
 void remove_last();
+int print_c(char a, int col, int row, char color);
+int scroll();
+int get_cursor();
+void set_cursor(int offset);
+int get_offset(int col, int row);
+int get_offset_row(int offset);
+int get_offset_col(int offset);
+
 
 #endif

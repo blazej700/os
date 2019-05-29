@@ -2,12 +2,19 @@
 #funkcje z c
 .extern isr_handler
 .extern irq_handler
-
+.align 16
 isr_common_stub:
-    pusha
+    pushl %ebp
+    pushl %edi
+    pushl %esi
+
+    pushl %edx
+    pushl %ecx
+    pushl %ebx
+    pushl %eax
 
     mov %ds, %ax
-    push %eax
+    pushl %eax
 
     mov $0x10, %ax
     mov %ax, %ds
@@ -17,44 +24,56 @@ isr_common_stub:
 
     call isr_handler
 
-    pop %ebx
+    popl %ebx
 
     mov %bx, %ds
     mov %bx, %es 
     mov %bx, %fs 
     mov %bx, %gs
 
-    popa
+    popl %eax
+    popl %ebx
+    popl %ecx
+    popl %edx
+
+    popl %esi
+    popl %edi
+    popl %ebp
+
     add $8, %esp
     sti
     iret
-
+    
+.align 16
 irq_common_stub:
-    pusha
+    pushl %ebp
+    pushl %edi
+    pushl %esi
 
-    mov %ds, %ax
-    push %eax
+    pushl %edx
+    pushl %ecx
+    pushl %ebx
+    pushl %eax
 
-    mov $0x10, %ax
-    mov %ax, %ds
-    mov %ax, %es
-    mov %ax, %fs
-    mov %ax, %gs
+    pushl %esp
+    pushl 32(%esp)
 
     call irq_handler
+    mov %eax, %esp
+    
+    popl %eax
+    popl %ebx
+    popl %ecx
+    popl %edx
 
-    pop %ebx
+    popl %esi
+    popl %edi
+    popl %ebp
 
-    mov %bx, %ds
-    mov %bx, %es 
-    mov %bx, %fs 
-    mov %bx, %gs
-
-    popa
     add $8, %esp
     sti
     iret
-
+.align 16
 #zeby bylo je widac w c
 .global isr0
 .global isr1

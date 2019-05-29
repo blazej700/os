@@ -6,7 +6,7 @@
  *
  */
 
-u32int free_mem_addr = 0x10000; //Początek wolnej pamięci, czyli moment od ktorego zapisujemy nasze jadro w pamieci
+u32int free_mem_addr = 0x100000; //Początek wolnej pamięci, czyli moment od ktorego zapisujemy nasze jadro w pamieci
 
 void memory_copy(char *source, char *dest, int nbytes) {
     int i;
