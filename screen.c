@@ -1,16 +1,4 @@
 #include "screen.h"
-#include "ports.h"
-#include "util.h"
-
-
-int print_c(char a, int col, int row, char color);
-int scroll();
-int get_cursor();
-void set_cursor(int offset);
-int get_offset(int col, int row);
-int get_offset_row(int offset);
-int get_offset_col(int offset);
-
 
 /*  wyswietla msg od podanego miejsca
 /   *msg - wskaznik na wiadomosc do wyswietlenia 
@@ -75,7 +63,6 @@ void print(char *msg)
 
 void print_r(char *msg)
 {
-
     int offset;
     int row;
     int col;
@@ -90,7 +77,6 @@ void print_r(char *msg)
     
     offset=get_offset(col, row);
     size=strl(msg);
-
     for(i=0; i < size; i++)
     {
         offset = print_c(msg[i], col, row, color);
@@ -113,7 +99,7 @@ void print_r(char *msg)
 */  
 int print_c(char a, int col, int row, char color)   
 {
-    char *screen = VIDEO_ADDRESS;
+    char *screen = (char *)VIDEO_ADDRESS;
 
     int offset;
     offset=get_offset(col, row);
@@ -149,7 +135,7 @@ int print_c(char a, int col, int row, char color)
 void clear_s() 
 {
     int size = MAX_ROWS*MAX_COLS;   //chyba oczywiste xd
-    char *screen = VIDEO_ADDRESS;   //wzkaznik na pamiec vga
+    char *screen = (char *)VIDEO_ADDRESS;   //wzkaznik na pamiec vga
     int i;
     for(i=0; i<size; i++)           //wedrujemy sobie przez cala pamiec i 
     {
@@ -168,10 +154,10 @@ int scroll(int offset)
     int i;
     for (i = 1; i < MAX_ROWS; i++) 
     {
-        memory_copy(get_offset(0, i) + VIDEO_ADDRESS, get_offset(0, i-1) + VIDEO_ADDRESS, MAX_COLS * 2);
+        memory_copy((char *)(get_offset(0, i) + VIDEO_ADDRESS), (char*)(get_offset(0, i-1) + VIDEO_ADDRESS), MAX_COLS * 2);
     }
     /* Blank last line */
-    char *last_line = get_offset(0, MAX_ROWS-1) + VIDEO_ADDRESS;
+    char *last_line = (char *)(get_offset(0, MAX_ROWS-1) + VIDEO_ADDRESS);
     for (i = 0; i < MAX_COLS * 2; i++) 
     {
         last_line[i] = 0;

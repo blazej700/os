@@ -1,8 +1,10 @@
 .code32
 .text
 
-.global _start
-start:
+.global kstart
+kstart:
+    movl $0x900000, %esp
+    movl %esp, %ebp
 	call main #wywolanie naszego jadra w C
 	
 	cli

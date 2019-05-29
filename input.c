@@ -41,14 +41,12 @@ void special_key(int a)
 void scan_c(char *c)
 {
 	int i = 0;
-	while(c[i]){
-		c[i]='\0';
-		i++;
-	}
+	while(c[i])
+		c[i++]='\0';
 	
 	scan_flag = 1;
 
-	while(special!=1);
+	while(special!=1 && scan_flag);
 
 	str_copy(c,buf);
 
@@ -56,5 +54,4 @@ void scan_c(char *c)
 
 	special = 0;
 	scan_flag = 0;
-
 }
