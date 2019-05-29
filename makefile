@@ -34,7 +34,7 @@ descriptor_tables.o: descriptor_tables.c descriptor_tables.h types.h
 ports.o: ports.c ports.h
 	i686-elf-gcc -ffreestanding -c ports.c -o ports.o -std=gnu99 -Wall -Wextra
 
-util.o: util.c util.h types.h stdarg.h screen.h
+util.o: util.c util.h types.h stdarg.h screen.h input.c
 	i686-elf-gcc -ffreestanding -c util.c -o util.o -std=gnu99 -Wall -Wextra
 
 screen.o: screen.c screen.h

@@ -94,7 +94,7 @@ void str_format_var(char *buf, char *format, va_list args) {
 		int len = 0, fill = 0;
 		char fillc = ' ';
 		union arg_type {
-			int i; float f; char c; char *s;
+			int i; float f; char c; char *s; u32int ui;
 		} arg;
 
 		// '%' means start of format specifier
@@ -144,8 +144,8 @@ void str_format_var(char *buf, char *format, va_list args) {
 				break;
 			case 'x':
 			case 'p':
-				arg.i = va_arg(args, int);
-				hex_to_str(arg.i, buf);
+				arg.ui = va_arg(args, u32int);
+				hex_to_str(arg.ui, buf);
 				while (*(buf + len)) len++;
 				break;
 			case 's':
@@ -201,6 +201,120 @@ void print_f(char *format, ...) {
 
 	print(buf);
 }
+
+int str_read_format_var(char *buf, char *format, va_list args) {
+	// simplified format string: %[width][type]
+
+	// number of correctly matched items
+	int n = 0;
+	// processing mode flag, 1 when processing format specifier
+	int proc = 0;
+
+	for (; *format; format++) {
+		int width = 0;
+		int len = 0;
+		union out_type {
+			int *i; float *f; char *c; u32int ui; u32int* p;
+		} out;
+
+		// '%' means start of format specifier
+		if (*format == '%') {
+			// first '%' starts processing, second ends it
+			if ((proc = !proc)) continue;
+		}
+
+		// ordinary text
+		if (!proc) {
+			// continue if the text is matching format
+			if (*format == *buf++) continue;
+			// return if not
+			return n;
+		}
+
+		// processing specifier
+		// width
+		while (*format >= '0' && *format <= '9') {
+			width *= 10;
+			width += *format++ - '0';
+		}
+		// type
+		switch (*format) {
+			case 'i':
+			case 'd':
+				*(va_arg(args, int*)) = str_to_int(buf);
+				while (is_digit(buf[len])) len++;
+				break;
+			case 'f':
+				*(va_arg(args, float*)) = str_to_float(buf);
+				while (is_digit(buf[len])) len++;
+				if (buf[len] == '.') len++;
+				while (is_digit(buf[len])) len++;
+				break;
+			case 'x':
+				*(va_arg(args, u32int*)) = hex_str_to_int(buf);
+				while (is_digit(buf[len]) ||
+					   (buf[len] >= 'a' && buf[len] <= 'f') ||
+					   (buf[len] >= 'A' && buf[len] <= 'F')) len++;
+				break;
+			case 's':
+				out.c = va_arg(args, char*);
+				while (!is_whitespace(buf[len])) len++;
+				memory_copy(buf, out.c, len);
+				out.c[len] = '\0';
+				break;
+			case 'c':
+				*(va_arg(args, char*)) = *buf;
+				len++;
+				break;
+			case 'b':
+				out.i = va_arg(args, int*);
+				if (strcmp("true", buf)) {
+					*(out.i) = 1;
+					len += 4;
+				} else if(strcmp("false", buf)) {
+					*(out.i) = 0;
+					len += 5;
+				}
+				break;
+			default:
+				break;
+		}
+		if (!len) return n;
+		buf += len;
+		n++;
+		proc = 0;
+	}
+
+	va_end(args);
+	*buf = '\0';
+
+	return n;
+}
+
+int str_read_format(char *buf, char *format, ...) {
+	int n;
+	va_list args;
+
+	va_start(args, format);
+	n = str_read_format_var(buf, format, args);
+	va_end(args);
+
+	return n;
+}
+
+int scan_f(char *format, ...) {
+	int n;
+	char buf[PRINT_BUF_LEN];
+	va_list args;
+
+	scan_c(buf);
+	va_start(args, format);
+	n = str_read_format_var(buf, format, args);
+	va_end(args);
+
+	return n;
+}
+
 void memory_set(u8int *dest, u8int val, u32int len) {
     u8int *temp = (u8int *)dest;
     for ( ; len != 0; len--) 
@@ -274,16 +388,46 @@ int pow(int a, int b)
 
 int str_to_int(char s[])
 {
-    int i = 0;
-    int l = strl(s);
-    int j = 0;
-    l--;
-    for(; l>=0; l--){
-        i = i + (s[l] - '0')*pow(10,j);
-        j++;
-    }
+	int i = 0;
 
-    return i;
+	while (is_digit(*s)) {
+		i *= 10;
+		i += *s++ - '0';
+	}
+
+	return i;
+}
+
+float str_to_float(char s[]) {
+	float f = 0;
+	int numerator, denominator = 1;
+
+	f = str_to_int(s);
+	while (is_digit(*s)) s++;
+	if (*s != '.') return f;
+	numerator = str_to_int(++s);
+	while (is_digit(*s)) {
+		s++;
+		denominator *= 10;
+	}
+	f += (float) numerator / denominator;
+
+	return f;
+}
+
+u32int hex_str_to_int(char s[]) {
+	u32int i = 0;
+
+	char c;
+	while ((c = *s++)) {
+		if (is_digit(c)) c = c - '0';
+		else if (c >= 'a' && c <= 'f') c = c - 'a' + 10;
+		else if (c >= 'A' && c <= 'F') c = c - 'A' + 10;
+		else break;
+		i = (i << 4) | (c & 0xF);
+	}
+
+	return i;
 }
 
 void hex_to_str(u32int hex, char str[])
@@ -306,6 +450,24 @@ void hex_to_str(u32int hex, char str[])
     rev(str, i);
 
     str[i] = '\0';
+}
+
+int is_letter(char c) {
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+}
+
+int is_digit(char c) {
+	return (c >= '0' && c <= '9');
+}
+
+int is_whitespace(char c) {
+	return (c == ' '  ||
+			c == '\f' ||
+			c == '\n' ||
+			c == '\r' ||
+			c == '\t' ||
+			c == '\v' ||
+			c == '\0');
 }
 
  /* zwraca wskaznik na wolna pamiec po zaalokowaniu 
