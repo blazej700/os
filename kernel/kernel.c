@@ -44,22 +44,8 @@ void clock_print()
 
 void clock_init()
 {
-	char input[15];
-
-	print("\nCurent time.\n");
-
-	print("H:");
-	scan_c(input);
-	init_time.h = str_to_int(input);
-
-	print("M:");
-	scan_c(input); 
-	init_time.m = str_to_int(input);
-
-	print("S:");
-	scan_c(input);
-	init_time.s = str_to_int(input);
-
+	print("\nCurent time (h.m.s): ");
+	scan_f("%d.%d.%d", &init_time.h, &init_time.m, &init_time.s);
 	print_f("%02d:%02d:%02d", init_time.h, init_time.m, init_time.s);
 
 	time_clear();
