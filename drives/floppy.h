@@ -2,15 +2,15 @@
 #define FLOPPY_H
 
 #include "timer.h"
-#include "util.h"
-#include "isr.h"
+#include "../utils/util.h"
+#include "../kernel/isr.h"
 // standard base address of the primary floppy controller
 static const int floppy_base = 0x03f0;
 // standard IRQ number for floppy controllers
 static const int floppy_irq = 38;
 
 #define floppy_dmalen_max 0x4800
-char floppy_dmabuf[floppy_dmalen_max] __attribute__((aligned(0x8000)));
+u8int floppy_dmabuf[floppy_dmalen_max];// __attribute__((aligned(0x8000)));
 static volatile int floppy_motor_ticks = 0;
 static volatile int floppy_motor_state = 0;
 
@@ -76,4 +76,5 @@ int floppy_write_track_chs(int cyl, int head, int sector, int size);
 void lba_2_chs(int lba, int* cyl, int* head, int* sector);
 int floppy_read_track(int lba, int size);
 int floppy_write_track(int lba, int size);
+bool change_drive(int d);
 #endif

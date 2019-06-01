@@ -1,6 +1,5 @@
 #include "input.h"
-#include "types.h"
-#include "util.h"
+
 
 char buf[256];
 int special;

@@ -248,6 +248,8 @@ int str_copy(char a[], char b[]) {
 }
 
 
+
+
 /* 
  * jesli sie zgadzaja zwraca 1, jesli nie 0
  */

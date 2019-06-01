@@ -1,0 +1,48 @@
+#Funkcja ladujaca z dysku reszte systemu
+
+disk_load:
+	pusha
+	push %dx 
+
+	mov $0x02, %ah  #w int 0x13 0x02 to funkcja read
+	mov %dh, %al
+	mov $16, %cl
+
+	mov $0, %ch
+
+	mov $0x01, %dh
+
+	int $0x13
+
+	jc disk_error
+
+	pop %dx
+	cmp %dh, %al
+
+	jne disk_error_sector
+
+	popa
+	ret
+
+disk_error:
+	mov $disk_error_msg, %edx
+	mov $disk_error_msg_l, %ecx
+	call print
+	call print_nl
+	mov %ax, %dx			
+	call print_hexb
+	jmp disk_loop
+
+disk_error_sector:
+	mov $disk_error_sector_msg, %edx
+	mov $disk_error_sector_msg_l, %ecx
+	call print
+
+disk_loop:
+	jmp disk_loop
+
+disk_error_msg: .ascii "dskErr"
+disk_error_msg_l = . - disk_error_msg
+disk_error_sector_msg: .ascii "secNumErr"
+disk_error_sector_msg_l = . - disk_error_sector_msg
+

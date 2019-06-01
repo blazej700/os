@@ -1,11 +1,11 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#include "types.h"
+#include "../utils/types.h"
 #include "screen.h"
-#include "util.h"
-#include "ports.h"
-#include "process.h"
+#include "../utils/util.h"
+#include "../utils/ports.h"
+#include "../kernel/process.h"
 
 void init_timer(u32int frequency);
 hour get_time();

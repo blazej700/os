@@ -1,14 +1,14 @@
 #ifndef KERNEL_H
 #define KERNEL_H
 
-#include "screen.h"
-#include "util.h"
+#include "../drives/screen.h"
+#include "../utils/util.h"
 #include "descriptor_tables.h"
-#include "timer.h"
-#include "input.h"
-#include "types.h"
+#include "../drives/timer.h"
+#include "../drives/input.h"
+#include "../utils/types.h"
 #include "process.h"
-#include "floppy.h"
+#include "../drives/floppy.h"
 
 hour init_time;
 

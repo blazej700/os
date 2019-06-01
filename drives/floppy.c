@@ -1,5 +1,26 @@
 #include "floppy.h"
 
+u8int current_drive = 0;
+
+
+bool change_drive(int d){
+   port_byte_out(0x70, 0x10);
+   unsigned drives = port_byte_in(0x71);
+
+   if(d == current_drive || d>1){
+      return false;
+   }
+
+   if(current_drive==0 && (drives & 0xf)){
+      current_drive=1;
+      return true;
+   }
+   else{
+      current_drive=0;
+      return true;
+   }
+}
+
 // Mozna uzyc do sprawdzenia jakie dyskietki sa wlozone
 void floppy_detect_drives() 
 {
@@ -78,7 +99,11 @@ void floppy_motor(int onoff)
       if(!floppy_motor_state) 
       {
          // trzeba uruchomic
-         port_byte_out(floppy_base + FLOPPY_DOR, 0x1c);
+         if(current_drive == 0)
+            port_byte_out(floppy_base + FLOPPY_DOR, 0x1c);
+         if(current_drive == 1)
+            port_byte_out(floppy_base + FLOPPY_DOR, 0x2D);
+
          sleep(50); 
       }
       floppy_motor_state = floppy_motor_on;
@@ -93,7 +118,12 @@ void floppy_motor(int onoff)
 
 void floppy_motor_kill() 
 {
-   port_byte_out(floppy_base + FLOPPY_DOR, 0x0c);
+
+   if(current_drive == 0)
+         port_byte_out(floppy_base + FLOPPY_DOR, 0x0c);
+   if(current_drive == 1)
+         port_byte_out(floppy_base + FLOPPY_DOR, 0x0D);
+
    floppy_motor_state = floppy_motor_off;
 }
 
@@ -120,7 +150,8 @@ int floppy_calibrate()
    for(i = 0; i < 10; i++) 
    {
       floppy_write_cmd(CMD_RECALIBRATE);
-      floppy_write_cmd(0); // ktory dysk
+      //floppy_write_cmd(0); // ktory dysk
+      floppy_write_cmd(current_drive);
         
       irq_wait(floppy_irq);
       floppy_check_interrupt(&st0, &cyl);
@@ -148,7 +179,10 @@ int floppy_calibrate()
 int floppy_reset() 
 {
    port_byte_out(floppy_base + FLOPPY_DOR, 0x00); // wylacz
-   port_byte_out(floppy_base + FLOPPY_DOR, 0x0C); // wlacz
+   if(current_drive==0)
+      port_byte_out(floppy_base + FLOPPY_DOR, 0x0C); // wlacz
+   if(current_drive==1)
+      port_byte_out(floppy_base + FLOPPY_DOR, 0x0D);
 
    irq_wait(floppy_irq);
 
@@ -187,7 +221,8 @@ int floppy_seek(int cyli)
       // 1st byte bit[1:0] = drive, bit[2] = head
       // 2nd byte is cylinder number
       floppy_write_cmd(CMD_SEEK);
-      floppy_write_cmd(head<<2);
+      floppy_write_cmd(head<<2|current_drive);
+      //floppy_write_cmd(head<<2);
       floppy_write_cmd(cyli);
       irq_wait(floppy_irq);
       floppy_check_interrupt(&st0, &cyl);
@@ -253,6 +288,7 @@ static void floppy_dma_init(floppy_dir dir, int floppy_dmalen)
 
 int floppy_do_track(int cyl, int head, int sector, floppy_dir dir, int size) 
 {
+   //print_f("Cylinder %d, head%d, sector%d", cyl, head, sector);
    //head musi byc rowne 0 lub 1
    if(head != 0 && head != 1)
       return 3;
@@ -291,9 +327,10 @@ int floppy_do_track(int cyl, int head, int sector, floppy_dir dir, int size)
       sleep(10); // give some time (100ms) to settle after the seeks
 
       floppy_write_cmd(cmd);  // set above for current direction
-      floppy_write_cmd(head<<2);    // 0:0:0:0:0:HD:US1:US0 = head and drive
+      floppy_write_cmd((head<<2)+current_drive);    //0:0:0:0:0:HD:US1:US0 = head and drive
+      //floppy_write_cmd(head<<2);
       floppy_write_cmd(cyl);  // cylinder
-      floppy_write_cmd(head<<2);    // first head (should match with above)
+      floppy_write_cmd(head);    // first head (should match with above)
       floppy_write_cmd(sector);    // first sector, strangely counts from 1
       floppy_write_cmd(2);    // bytes/sector, 128*2^x (x=2 -> 512)
       floppy_write_cmd(18);   // number of tracks to operate on

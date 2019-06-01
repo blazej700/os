@@ -1,12 +1,12 @@
 #ifndef ISR_H
 #define ISR_H
 
-#include "types.h"
-#include "screen.h"
-#include "util.h"
-#include "timer.h"
-#include "keyboard.h"
-#include "ports.h"
+#include "../utils/types.h"
+#include "../drives/screen.h"
+#include "../utils/util.h"
+#include "../drives/timer.h"
+#include "../drives/keyboard.h"
+#include "../utils/ports.h"
 
 #define IRQ0 32
 #define IRQ1 33
