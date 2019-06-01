@@ -3,7 +3,9 @@
 Kompilacja:` make`, przy użyciu Cross Compiler https://wiki.osdev.org/GCC_Cross-Compiler
 
 Uruchomienie:`make run`
+
 Uruchomienie z dyskietki:` qemu-system-i386 -fda floppyDisks/os1.img`
+
 Opcjonalnie dla dwóch: ` qemu-system-i386 -fda floppyDisks/os1.img -fdb jakisObraz.img`
 
 Tworzenie dyskietek FAT12: https://wiki.osdev.org/Fat_imgen
