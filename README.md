@@ -1,55 +1,52 @@
 # OS 
 
-kompilacja:` make`, przy użyciu Cross Compiler https://wiki.osdev.org/GCC_Cross-Compiler
+Kompilacja:` make`, przy użyciu Cross Compiler https://wiki.osdev.org/GCC_Cross-Compiler
 
-uruchomienie:` qemu-system-i386 -fda os-image.bin`
+Uruchomienie:`make run`
+Uruchomienie z dyskietki:` qemu-system-i386 -fda floppyDisks/os1.img`
+Opcjonalnie dla dwóch: ` qemu-system-i386 -fda floppyDisks/os1.img -fdb jakisObraz.img`
 
-# Dyskietka do odpalenia w VM
-1.`dd if=/dev/zero of=os-image.img ibs=1k count=1440`
+Tworzenie dyskietek FAT12: https://wiki.osdev.org/Fat_imgen
 
-2.`dd if=os-image.bin of=os-image.img conv=notrunc`
+### OPIS
 
-Stworzenie dysku floppy do wczytania w systemie - make floppy
-Zmiana dyskietki na wygenerowaną:
-1. Ctrl - Alt - 2 w QEMU
-2. change floppy0 os-image.img
-3. Ctrl - Alt - 1
 
-# OPIS
-
-1.Kernel
-  1. kernel.c - główny kod jadra
-  2. keyboard.c - sterownik klawiatury
-  3. ports.c - obsługa portów
-  4. util.c - funkcje pomocnicze
-  5. timer.c - sterownik timera
-  6. kernel_entry.s - wywołuje główny kod jądra
-  7. screen.c - sterownik vga
-  8. interupt.s, isr.c, gdt.s, descriptor_tables.c - obsługa przerwań
-  9. input.c - obsługa wejścia
-
-2.Bootloader
+#### 1.bootloader i toFatBootloader
   1. boot.s - główny kod bootladera
   2. load_disk.s - ładuje jądro z dysku
   3. switch_to32.s - przechodzi w tryb 32 bitowy
   4. string_16print.s, hex_16print.s - wyświetlanie w trybie 16 bitowym
   5. string_32print.s - wyświetlanie w trybie 32 bitowym
+  6. kernel_entry.s - wywołuje główny kod jądra
 
-# TODO
+#### 2.drives
+  1. keyboard.c - sterownik klawiatury
+  2. timer.c - sterownik timera
+  3. screen.c - sterownik vga
+  4. interupt.s, isr.c, gdt.s, descriptor_tables.c - obsługa przerwań
+  5. input.c - obsługa wejścia
+  6. floppy.c - sterownik stacji dyskietek
 
-  - ~~sterownik vga --DONE
-  - ~~Przerwania 1 --DONE
-  - ~~sterownik klawiatury --DONE
+#### 3.kernel
+  1. kernel.c - główny kod jadra
+  2. interupt.s, isr.c, descriptor_tables.c - obsługa przerwań
 
-  - Alokator pamieci Częściowo DONE
-  - ~~Przerwania 2 --DONE
+#### 4.utils
+  1. ports.c - obsługa portów
+  2. util.c - funkcje pomocnicze
+
+### TODO
+
+  - sterownik vga --DONE
+  - Przerwania 1 --DONE
+  - sterownik klawiatury --DONE
+  - Alokator pamieci--DONE
+  - Przerwania 2 --DONE
   - Sterownik stacji dyskietek --DONE
   - Obsługa procesów --DONE
-  - Fat12
-  - Zmiany bootloadera do pracy z plikami 
-  - Uruchamianie programów
-
+  - Fat12 --DONE
+  - Zmiany bootloadera do pracy z plikami --DONE
+  - Uruchamianie programów --DONE
   - Sterownik dysku twardego
   - Fat16/Fat32 albo Ext2
   - Sterownik USB
-
