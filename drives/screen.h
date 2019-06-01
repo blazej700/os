@@ -1,8 +1,8 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
-#include "ports.h"
-#include "util.h"
+#include "../utils/ports.h"
+#include "../utils/util.h"
 
 #define VIDEO_ADDRESS 0xb8000	//adres poczatku pamieci vga
 #define MAX_ROWS 25	

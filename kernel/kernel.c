@@ -8,7 +8,8 @@
 //Czy na pewno kompilujemy w 32bit
 #if !defined(__i386__)
 #error "This needs to be compiled with a i686-elf compiler"
-#endif 
+#endif
+
 
 void scheduler_test()
 {
@@ -70,34 +71,62 @@ void malloc_test()
 	print_f("Page: %x, physical address: %p\n", page, phys_addr);
 }
 
-void floppy_test()
+void edit()
 {
 	int i=0;
-	char floppy_input[10];
+	char file_name[10];
+	char values[2000];
 	// Paskudny hack, zeby nie wracalo do menu
 	task_manager.tasks[0].status = DEAD_PROCESS;
-	print("Which sector: ");
-	scan_c(floppy_input);
+	print("File name: ");
+	scan_c(file_name);
 
-	u32int start;
-	start = (u32int)(str_to_int(floppy_input));
 
-	print("How many bytes: ");
-	scan_c(floppy_input);
+	print("Text: \n");
+	scan_c(values);
+
 	task_manager.tasks[0].status = ACTIVE_PROCESS;
 
-	u32int size;
-	size = (u32int)(str_to_int(floppy_input));
+	write_to_file(file_name,values);
+}
+void dir(){
 
-	floppy_read_track(start, size);
-	for(i=0; i<size; i++)
-		print_f("%d ",  floppy_dmabuf[i]);
+	print_files();
+	print("\n");
 }
 
-void system_menu()
+void view_c(){
+	char name[9];
+
+	task_manager.tasks[0].status = DEAD_PROCESS;
+	print("FIle name:");
+	scan_c(name);
+	print("\n");
+
+	task_manager.tasks[0].status = ACTIVE_PROCESS;
+
+	dump_file(name, false);
+	print("\n");
+}
+
+void view_h(){
+	char name[9];
+
+	task_manager.tasks[0].status = DEAD_PROCESS;
+	print("FIle name:");
+	scan_c(name);
+	print("\n");
+	
+
+	task_manager.tasks[0].status = ACTIVE_PROCESS;
+
+	dump_file(name, true);
+	print("\n");
+}
+
+void help()
 {
-	print_r("OS v1\n");
-	print_r("Dzien dobry\n");
+
 	print("To stop, type STOP.\n");
 	print("To set  time, type SETTIME.\n");
 	print("To curent time, type TIME.\n");
@@ -106,13 +135,35 @@ void system_menu()
 	print("To list processes, type PS.\n"); 
 	print("To kill process, type KILL.\n"); 
 	print("To test floppy, type FLOPPY.\n"); 
-	print("Everything else will be printed.\n");
-	print("It's sooooo useful, have fun.\n");
+	print("DIR to list files");
+}
+void ex(){
+	char name[9];
+
+	task_manager.tasks[0].status = DEAD_PROCESS;
+	print("FIle name:");
+	scan_c(name);
 	
+
+	task_manager.tasks[0].status = ACTIVE_PROCESS;
+
+	open_program(name);
+	print("\n");
+}
+
+
+
+void system_menu()
+{
+	print_r("OS v1\n");
+	print_r("Dzien dobry\n");
+
+	char drive_l='A';
+
 	char input[256];
 	while(1)
 	{
-		print("\n> ");
+		print_f("%c>", drive_l);
 		scan_c(input);
 		if (strcmp(input, "STOP") == 1) 
 		{
@@ -123,25 +174,31 @@ void system_menu()
 	    else if(strcmp(input, "TIME") == 1)
 	    {
 	    	clock_print();
+	    	print("\n");
 	    }
 	    else if(strcmp(input, "MALLOC") == 1)
 	    {
 	    	malloc_test();
+	    	print("\n");
 	    }
 	    else if(strcmp(input, "SETTIME") == 1)
 	    {
 	    	clock_init();
+	    	print("\n");
 	    }
 	    else if(strcmp(input, "SCHEDULER") == 1)
 	    {
 			add_task(scheduler_test);
+			print("\n");
 	    }
 	    else if(strcmp(input, "PS") == 1)
 	    {
 	    	list_processes();
+	    	print("\n");
 	    }
 	    else if(strcmp(input, "KILL") == 1)
 	    {
+
 	    	char id_c[10];
 	    	print("Process to kill");
 			print("\n ");
@@ -149,15 +206,59 @@ void system_menu()
 			int id;
 			id = str_to_int(id_c);
 			kill_task(id);
+			print("\n");
 	    }
-	    else if(strcmp(input, "FLOPPY") == 1)
+	    else if(strcmp(input, "EDIT") == 1)
 	    {
-			add_task(floppy_test);
+			add_task(edit);
+			print("\n");
+	    }
+	    else if(strcmp(input, "DIR") == 1)
+	    {
+			add_task(dir);
+			print("\n");
+
+	    }
+	    else if(strcmp(input, "HELP") == 1)
+	    {
+			help();
+			print("\n");
+	    }
+	    else if(strcmp(input, "VIEW") == 1)
+	    {
+			add_task(view_c);
+			print("\n");
+
+	    }
+	    else if(strcmp(input, "HEX") == 1)
+	    {
+			add_task(view_h);
+			print("\n");
+
+	    }
+	    else if(strcmp(input, "EX") == 1)
+	    {
+			add_task(ex);
+			print("\n");
+
+	    }
+	    else if(strcmp(input, "") == 1)
+	    {
+	    	continue;
+	    }
+	    else if(strcmp(input, "A") == 1)
+	    {
+	    	if(change_drive(0))
+	    		drive_l='A';
+	    }
+	    else if(strcmp(input, "B") == 1)
+	    {
+	    	if(change_drive(1))
+	    		drive_l='B';
 	    }
 	    else
 		{	    
-			print("You said: ");
-		    print(input);
+		    print_f("%s, command not found. To help, type HELP\n", input);
 		}
 	}
 

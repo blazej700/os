@@ -1,7 +1,7 @@
 # Executable
+*.ls
 *.o
 os-image.img
-kernel.bin
-boot.bin
+*.bin
 # Linux
 *~

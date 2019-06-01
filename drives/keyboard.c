@@ -1,8 +1,4 @@
 #include "keyboard.h"
-#include "ports.h"
-#include "isr.h"
-#include "screen.h"
-#include "input.h"
 
 #define ENTER 0x1c
 #define BACKSPACE 14

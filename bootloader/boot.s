@@ -26,11 +26,11 @@ _start:
 	jmp . 				#gdyby poprzednie instrukcje sie nie wykonaly, to tutaj sie zatrzymamy, ale jak wszystko jest ok
 					#to nigdy tu nie dojdziemy
   
-	.include "string_16print.s"
-	.include "hex_16print.s"
-	.include "load_disk.s"
-	.include "string_32print.s"
-	.include "switch_to32.s"
+	.include "bootloader/string_16print.s"
+	.include "bootloader/hex_16print.s"
+	.include "bootloader/load_disk.s"
+	.include "bootloader/string_32print.s"
+	.include "bootloader/switch_to32.s"
 
 .code16
 load_kernel:
@@ -43,7 +43,7 @@ load_kernel:
  
 	mov $KERNEL_OFFSET, %bx
 
-	mov $37, %dh 			#ilosc sektorow do wczytania, pamietac zeby zwiekszyc jak braknie miejsca xda 
+	mov $47, %dh 			#ilosc sektorow do wczytania, pamietac zeby zwiekszyc jak braknie miejsca xda 
 	mov boot_drive(, %eax, 1), %dl
 	
 	call disk_load			#wywolanie wczytywania z dysku
