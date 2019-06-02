@@ -306,7 +306,6 @@ int scan_f(char *format, ...) {
 	int n;
 	char buf[PRINT_BUF_LEN];
 	va_list args;
-
 	scan_c(buf);
 	va_start(args, format);
 	n = str_read_format_var(buf, format, args);
@@ -352,10 +351,12 @@ void delend(char s[]) {
 int str_copy(char a[], char b[]) {
     int i = 0;
 
+
     while(b[i]){
         a[i]=b[i];
         i++;
     }
+    a[i]='\0';
 
     return i;
 }

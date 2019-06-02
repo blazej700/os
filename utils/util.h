@@ -4,7 +4,7 @@
 #include "types.h"
 #include "../drives/screen.h"
 #include "stdarg.h"
-#include "input.h"
+#include "../drives/input.h"
 
 
 #define PRINT_BUF_LEN 100

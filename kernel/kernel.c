@@ -10,6 +10,7 @@
 #error "This needs to be compiled with a i686-elf compiler"
 #endif
 
+char param[256];
 
 void scheduler_test()
 {
@@ -53,17 +54,9 @@ void clock_init()
 
 void malloc_test()
 {
-	char size_input[10];
-	print("Size to allocate");
-	print("\nMALLOC> ");
-	scan_c(size_input);
 
 	u32int size;
-	size = (u32int)(str_to_int(size_input));
-
-	int_to_ascii(size, size_input);
-	print(size_input);
-	print("\n");
+	size = (u32int)(str_to_int(param));
 
 	u32int phys_addr;
 	u32int page = kmalloc(size, &phys_addr);
@@ -73,98 +66,105 @@ void malloc_test()
 
 void edit()
 {
-	int i=0;
-	char file_name[10];
+
 	char values[2000];
 	// Paskudny hack, zeby nie wracalo do menu
 	task_manager.tasks[0].status = DEAD_PROCESS;
-	print("File name: ");
-	scan_c(file_name);
-
 
 	print("Text: \n");
 	scan_c(values);
 
 	task_manager.tasks[0].status = ACTIVE_PROCESS;
 
-	write_to_file(file_name,values);
+	write_to_file(param,values);
 }
 void dir(){
 
 	print_files();
-	print("\n");
 }
 
 void view_c(){
-	char name[9];
 
-	task_manager.tasks[0].status = DEAD_PROCESS;
-	print("FIle name:");
-	scan_c(name);
-	print("\n");
-
-	task_manager.tasks[0].status = ACTIVE_PROCESS;
-
-	dump_file(name, false);
-	print("\n");
+	dump_file(param, false);
 }
 
 void view_h(){
-	char name[9];
 
-	task_manager.tasks[0].status = DEAD_PROCESS;
-	print("FIle name:");
-	scan_c(name);
-	print("\n");
-	
-
-	task_manager.tasks[0].status = ACTIVE_PROCESS;
-
-	dump_file(name, true);
-	print("\n");
+	dump_file(param, true);
 }
 
 void help()
 {
 
-	print("To stop, type STOP.\n");
-	print("To set  time, type SETTIME.\n");
-	print("To curent time, type TIME.\n");
-	print("To kmalloc, type MALLOC.\n"); 
-	print("To test scheduler, type SCHEDULER.\n"); 
-	print("To list processes, type PS.\n"); 
-	print("To kill process, type KILL.\n"); 
-	print("To test floppy, type FLOPPY.\n"); 
-	print("DIR to list files");
+	print_f("Available commands:\n");
+	print_f("%-10s %-10s %s\n\n","Command", "Params", "Description");
+	print_f("%-10s %-10s %s\n","STOP","","Stoping processor.");
+	print_f("%-10s %-10s %s\n","DIR","","Listing files.");
+	print_f("%-10s %-10s %s\n","TIME","","Display time.");
+	print_f("%-10s %-10s %s\n","SETTIME","","Set time.");
+	print_f("%-10s %-10s %s\n","PS","","Listing processes.");
+	print_f("%-10s %-10s %s\n","KILL","number","Killing process.");
+	print_f("%-10s %-10s %s\n","SCHEDULER","","Scheduler testing.");
+	print_f("%-10s %-10s %s\n","MALLOC","size","Malloc testing.");
+
+	print_f("%-10s %-10s %s\n","HEX","File_name","Display file in hex.");
+	print_f("%-10s %-10s %s\n","VIEW","File_name","Display file.");
+	print_f("%-10s %-10s %s\n","EX","File_name","Executing file.");
+	print_f("%-10s %-10s %s\n","EDIT","File_name","Editing file.");
+	print_f("%-10s %-10s %s\n","DRIVES","File_name","Printing drives list.");
+
+	print_f("%-10s %-10s %s\n","A/B","","Change floppy drive to A or B.");
+
+
 }
 void ex(){
-	char name[9];
 
-	task_manager.tasks[0].status = DEAD_PROCESS;
-	print("FIle name:");
-	scan_c(name);
+	open_program(param);
+
+}
+void drives_print(){
+	print_f("Available floppy drives:\n");
+	print_f("Drive capacity[kB] size[\"]\n");
+	floppy_detect_drives();
 	
+}
 
-	task_manager.tasks[0].status = ACTIVE_PROCESS;
-
-	open_program(name);
-	print("\n");
+void heloo_msg(){
+	print_f(" ------------------------------------------------- \n");
+	print_f("|%-49s |\n","                      _      __  ___      ");
+	print_f("|%-49s |\n","                     | |    /_ |/ _ \\ ");
+	print_f("|%-49s |\n","  _ __ ___   ___   __| |_   _| | (_) |");
+	print_f("|%-49s |\n"," | '_ ` _ \\ / _ \\ / _` | | | | |> _ < / _ \\/ __|");
+	print_f("|%-49s |\n"," | | | | | | (_) | (_| | |_| | | (_) | (_) \\__ \\ ");
+	print_f("|%-49s |\n"," |_| |_| |_|\\___/ \\__,_|\\__,_|_|\\___/ \\___/|___/");
+	print_f("|%-49s |\n","         ___  __ ");
+	print_f("|%-49s |\n","        / _ \\/_ | ");
+	print_f("|%-49s |\n"," __   _| | | || | ");
+	print_f("|%-49s |\n"," \\ \\ / | | | || |");
+	print_f("|%-49s |\n","  \\ V /| |_| _| | ");
+	print_f("|%-49s |\n","   \\_/  \\___(_|_| ");
+	print_f(" ------------------------------------------------- \n");
 }
 
 
 
 void system_menu()
 {
-	print_r("OS v1\n");
-	print_r("Dzien dobry\n");
+
+	heloo_msg();
+	print("\n");
+	drives_print();
 
 	char drive_l='A';
 
 	char input[256];
+
 	while(1)
 	{
 		print_f("%c>", drive_l);
-		scan_c(input);
+		int a;
+		a = scan_f("%s %s",input, param);
+
 		if (strcmp(input, "STOP") == 1) 
 		{
 	    	print("Stop");
@@ -188,7 +188,7 @@ void system_menu()
 	    }
 	    else if(strcmp(input, "SCHEDULER") == 1)
 	    {
-			add_task(scheduler_test);
+			add_task(scheduler_test,"scheduler");
 			print("\n");
 	    }
 	    else if(strcmp(input, "PS") == 1)
@@ -198,24 +198,19 @@ void system_menu()
 	    }
 	    else if(strcmp(input, "KILL") == 1)
 	    {
-
-	    	char id_c[10];
-	    	print("Process to kill");
-			print("\n ");
-			scan_c(id_c);
 			int id;
-			id = str_to_int(id_c);
+			id = str_to_int(param);
 			kill_task(id);
 			print("\n");
 	    }
 	    else if(strcmp(input, "EDIT") == 1)
 	    {
-			add_task(edit);
+			add_task(edit,"edit");
 			print("\n");
 	    }
 	    else if(strcmp(input, "DIR") == 1)
 	    {
-			add_task(dir);
+			add_task(dir,"dir");
 			print("\n");
 
 	    }
@@ -226,19 +221,23 @@ void system_menu()
 	    }
 	    else if(strcmp(input, "VIEW") == 1)
 	    {
-			add_task(view_c);
+			add_task(view_c,"view_c");
 			print("\n");
 
 	    }
 	    else if(strcmp(input, "HEX") == 1)
 	    {
-			add_task(view_h);
-			print("\n");
-
+			add_task(view_h,"view_h");
+			
+	    }
+	    else if(strcmp(input, "DRIVES") == 1)
+	    {
+			drives_print();
+			
 	    }
 	    else if(strcmp(input, "EX") == 1)
 	    {
-			add_task(ex);
+			add_task(ex,"ex");
 			print("\n");
 
 	    }
@@ -259,6 +258,7 @@ void system_menu()
 	    else
 		{	    
 		    print_f("%s, command not found. To help, type HELP\n", input);
+		    //print_f("%s\n", input);
 		}
 	}
 
@@ -271,9 +271,9 @@ void main()
 	init_descriptor_tables();
 	create_task_manager(&task_manager);
 	//menu musi być dodane pierwsze
-	add_task(system_menu);
+	add_task(system_menu, "main");
 
-	add_task(&floppy_reset);
+	add_task(&floppy_reset,"floppy_reset");
 
 	//Musi być ostatnie bo uruchamia wielowątkowość
 	irq_install();

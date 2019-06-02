@@ -36,7 +36,7 @@ descriptor_tables.o: kernel/descriptor_tables.c kernel/descriptor_tables.h
 ports.o: utils/ports.c utils/ports.h
 	i686-elf-gcc -ffreestanding -nostdlib -lgcc -c utils/ports.c -o ports.o -std=gnu99 -Wall -Wextra
 
-util.o: utils/util.c utils/util.h utils/types.h utils/stdarg.h drivers/input.h
+util.o: utils/util.c utils/util.h utils/types.h utils/stdarg.h drives/input.h
 	i686-elf-gcc -ffreestanding -nostdlib -lgcc -c utils/util.c -o util.o -std=gnu99 -Wall -Wextra
 
 screen.o: drives/screen.c drives/screen.h

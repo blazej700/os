@@ -1,6 +1,6 @@
 #include "process.h"
 
-void create_task(Task *newTask, void entrypoint())
+void create_task(Task *newTask, void entrypoint(), char name[])
 {
     newTask->regs = (CPUState*)(newTask->stack + 4096 - sizeof(CPUState));
 
@@ -20,6 +20,7 @@ void create_task(Task *newTask, void entrypoint())
     newTask->regs->esp = (u32int)(newTask->regs-4);
     newTask->regs->ss = 0x10;
     newTask->real_entrypoint = (u32int)entrypoint;
+    str_copy(newTask->name, name);
     newTask->status = ACTIVE_PROCESS;
 }
 
@@ -32,7 +33,7 @@ void create_task_manager(TaskManager *newTaskManager)
         newTaskManager->tasks[i].status = DEAD_PROCESS;
 }
 
-bool add_task(void entrypoint())
+bool add_task(void entrypoint(),char name[])
 {
     if(task_manager.num_tasks >= 143) 
         return false;
@@ -43,7 +44,7 @@ bool add_task(void entrypoint())
         if(task_manager.tasks[i].status == DEAD_PROCESS)
             break;
     }
-    create_task(&task_manager.tasks[i], entrypoint);
+    create_task(&task_manager.tasks[i], entrypoint, name);
     task_manager.num_tasks++;
     return true;
 }
@@ -97,15 +98,18 @@ void process_wrapper()
 void list_processes()
 {
     int i;
+    print_f("List of processes\nNumber name       status\n");
     for(i=0; i<143; i++)
     {
         if(task_manager.tasks[i].status != DEAD_PROCESS)
         {
-            print_f("Process number %d        STATUS ====> ", i);
+
+            print_f("%6d %-10s ", i, task_manager.tasks[i].name);
             if (task_manager.tasks[i].status == SLEEPING_PROCESS)
                 print("SLEEPING\n");
             else if (task_manager.tasks[i].status == ACTIVE_PROCESS)
                 print("ACTIVE\n");
+
         }
     }
 }

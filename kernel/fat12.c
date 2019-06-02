@@ -153,7 +153,7 @@ void open_program(char name_1[])
 	floppy_read_track(first_data_sector-2+Files[i].cluster, Files[i].size);
 
 
-	add_task(&floppy_dmabuf[0]);
+	add_task(&floppy_dmabuf[0],name_1);
 }
 
 void write_to_file(char name_1[], char values[])

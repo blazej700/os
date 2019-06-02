@@ -11,7 +11,7 @@ bool change_drive(int d){
       return false;
    }
 
-   if(current_drive==0 && (drives & 0xf)){
+   if(current_drive==0 && (drives & 0xf)!=0){
       current_drive=1;
       return true;
    }
@@ -27,8 +27,14 @@ void floppy_detect_drives()
    port_byte_out(0x70, 0x10);
    unsigned drives = port_byte_in(0x71);
 
-   print_f(" - Floppy drive 0: %s\n", drive_types[drives >> 4]);
-   print_f(" - Floppy drive 1: %s\n", drive_types[drives & 0xf]);
+
+   int a[]={0,360,1228, 720,1474,2949,0,0};
+   float b[]={0,5.25,5.25,3.5,3.5,3.5,0,0};
+
+   if((drives >> 4)>0)
+      print_f("A:    %8i     %.2f \n",a[drives >> 4],b[drives >> 4]);
+   if((drives & 0xf)>0)
+      print_f("B:    %8i     %.2f \n",a[(drives & 0xf)],b[(drives & 0xf)]);
 }
 
 //

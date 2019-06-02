@@ -10,6 +10,7 @@ typedef struct {
     process_status status;
     unsigned int timer_ticks;
     void (*real_entrypoint)();
+    char name[];
 } Task;
 
 typedef struct
@@ -19,9 +20,9 @@ typedef struct
     int current_task;
 } TaskManager;
 
-void create_task(Task *newTask, void entrypoint());
+void create_task(Task *newTask, void entrypoint(), char name[]);
 void create_task_manager(TaskManager *newTaskManager);
-bool add_task(void entrypoint());
+bool add_task(void entrypoint(), char name[]);
 u32int schedule(CPUState *regs);
 void kill_task(int task_id);
 void process_wrapper();
