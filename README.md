@@ -32,6 +32,7 @@ Tworzenie dyskietek FAT12: https://wiki.osdev.org/Fat_imgen
 #### 3.kernel
   1. kernel.c - główny kod jadra
   2. interupt.s, isr.c, descriptor_tables.c - obsługa przerwań
+  3. process.c yield.s - wielowatkowosc
 
 #### 4.utils
   1. ports.c - obsługa portów

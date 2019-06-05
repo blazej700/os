@@ -2,10 +2,10 @@
 #define ISR_H
 
 #include "../utils/types.h"
-#include "../drives/screen.h"
+#include "../drivers/screen.h"
 #include "../utils/util.h"
-#include "../drives/timer.h"
-#include "../drives/keyboard.h"
+#include "../drivers/timer.h"
+#include "../drivers/keyboard.h"
 #include "../utils/ports.h"
 
 #define IRQ0 32

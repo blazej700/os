@@ -1,11 +1,12 @@
+#ifndef DESCRIPTOR_TABLES_H
+#define DESCRIPTOR_TABLES_H
 
 #include "../utils/util.h"
-#include "../drives/screen.h"
+#include "../drivers/screen.h"
 #include "../utils/types.h"
 #include "../utils/ports.h"
 
 void init_descriptor_tables();
-
 
 //wartosci GDT entry
 struct gdt_entry_struct
@@ -101,3 +102,5 @@ extern void irq12();
 extern void irq13();
 extern void irq14();
 extern void irq15();
+
+#endif

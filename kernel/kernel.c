@@ -17,9 +17,7 @@ void scheduler_test()
 	while(true)
 	{
 		print_f("Proces numer %d \n", task_manager.current_task);
-		//print_f("przed: %x %x\n", task_manager.tasks[task_manager.current_task].regs->ss, task_manager.tasks[task_manager.current_task].regs->esp);
 		sleep(500);
-		//print_f("po: %x %x\n", task_manager.tasks[task_manager.current_task].regs->ss, task_manager.tasks[task_manager.current_task].regs->esp);
 	}
 }
 
@@ -54,7 +52,6 @@ void clock_init()
 
 void malloc_test()
 {
-
 	u32int size;
 	size = (u32int)(str_to_int(param));
 
@@ -66,7 +63,6 @@ void malloc_test()
 
 void edit()
 {
-
 	char values[2000];
 	// Paskudny hack, zeby nie wracalo do menu
 	task_manager.tasks[0].status = DEAD_PROCESS;
@@ -78,24 +74,21 @@ void edit()
 
 	write_to_file(param,values);
 }
-void dir(){
 
+void dir(){
 	print_files();
 }
 
 void view_c(){
-
 	dump_file(param, false);
 }
 
 void view_h(){
-
 	dump_file(param, true);
 }
 
 void help()
 {
-
 	print_f("Available commands:\n");
 	print_f("%-10s %-10s %s\n\n","Command", "Params", "Description");
 	print_f("%-10s %-10s %s\n","STOP","","Stoping processor.");
@@ -114,19 +107,16 @@ void help()
 	print_f("%-10s %-10s %s\n","DRIVES","File_name","Printing drives list.");
 
 	print_f("%-10s %-10s %s\n","A/B","","Change floppy drive to A or B.");
-
-
 }
+
 void ex(){
-
 	open_program(param);
-
 }
+
 void drives_print(){
 	print_f("Available floppy drives:\n");
 	print_f("Drive capacity[kB] size[\"]\n");
 	floppy_detect_drives();
-	
 }
 
 void heloo_msg(){
@@ -146,11 +136,8 @@ void heloo_msg(){
 	print_f(" ------------------------------------------------- \n");
 }
 
-
-
 void system_menu()
 {
-
 	heloo_msg();
 	print("\n");
 	drives_print();
@@ -258,7 +245,6 @@ void system_menu()
 	    else
 		{	    
 		    print_f("%s, command not found. To help, type HELP\n", input);
-		    //print_f("%s\n", input);
 		}
 	}
 

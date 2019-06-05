@@ -4,7 +4,8 @@
 #include "../utils/types.h"
 #include "isr.h"
 
-typedef struct {
+typedef struct 
+{
     u8int stack[4096];
     CPUState *regs;
     process_status status;
@@ -27,6 +28,7 @@ u32int schedule(CPUState *regs);
 void kill_task(int task_id);
 void process_wrapper();
 void list_processes();
+extern void yield();
 
 TaskManager task_manager;
 

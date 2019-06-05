@@ -84,7 +84,7 @@ void kill_task(int task_id)
 
     
     if(task_id == task_manager.current_task)
-        while(1);
+        yield();
 }
 
 void process_wrapper()
@@ -92,7 +92,7 @@ void process_wrapper()
     task_manager.tasks[task_manager.current_task].real_entrypoint();
     task_manager.tasks[task_manager.current_task].status = DEAD_PROCESS;
     task_manager.num_tasks--;
-    while(1);
+    yield();
 }
 
 void list_processes()

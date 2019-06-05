@@ -2,9 +2,9 @@
 #define UTIL_H
 
 #include "types.h"
-#include "../drives/screen.h"
+#include "../drivers/screen.h"
 #include "stdarg.h"
-#include "../drives/input.h"
+#include "../drivers/input.h"
 
 
 #define PRINT_BUF_LEN 100

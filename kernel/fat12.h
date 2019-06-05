@@ -1,14 +1,14 @@
 #ifndef FAT12_H
 #define FAT12_H
 
-#include "../drives/screen.h"
+#include "../drivers/screen.h"
 #include "../utils/util.h"
 #include "descriptor_tables.h"
-#include "../drives/timer.h"
-#include "../drives/input.h"
+#include "../drivers/timer.h"
+#include "../drivers/input.h"
 #include "../utils/types.h"
 #include "process.h"
-#include "../drives/floppy.h"
+#include "../drivers/floppy.h"
 
 #define first_fat_sector 19
 #define fat_size 32
